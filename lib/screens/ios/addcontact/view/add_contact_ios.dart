@@ -77,45 +77,29 @@ class _AddContactIosState extends State<AddContactIos> {
                     ],
                   ),
                 if (stepIndex == 1)
-                  CupertinoTextFormFieldRow(
+                  CupertinoTextField(
                     controller: nameController,
                     placeholder: 'Name',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Name';
-                      }
-                      return null;
-                    },
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                   ),
                 if (stepIndex == 2)
-                  CupertinoTextFormFieldRow(
+                  CupertinoTextField(
                     controller: numberController,
                     placeholder: 'Number',
                     keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Number';
-                      } else if (value.length < 10) {
-                        return 'Number Must Be 10 Digit';
-                      }
-                      return null;
-                    },
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                     maxLength: 10,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
-                // Step 4: Email
                 if (stepIndex == 3)
-                  CupertinoTextFormFieldRow(
+                  CupertinoTextField(
                     controller: emailController,
                     placeholder: 'Email',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Email';
-                      }
-                      return null;
-                    },
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                   ),
-                // Step 5: Save Button
                 if (stepIndex == 4)
                   CupertinoButton.filled(
                     onPressed: () {

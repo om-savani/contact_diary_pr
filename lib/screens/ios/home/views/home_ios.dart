@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/models/contact_model.dart';
+
 class HomeScreenIos extends StatefulWidget {
   const HomeScreenIos({super.key});
 
@@ -80,8 +82,12 @@ class _HomeScreenIosState extends State<HomeScreenIos> {
                   : ListView.builder(
                       itemCount: watch.allContacts.length,
                       itemBuilder: (context, index) {
-                        return Visibility(
-                          visible: read.allContacts[index].isHidden == false,
+                        return GestureDetector(
+                          onTap: () {
+                            read.changeIndex(index);
+                            Navigator.pushNamed(context, IosRoutes.details,
+                                arguments: read.allContacts[index]);
+                          },
                           child: CupertinoListTile(
                             title: Text("${watch.allContacts[index].name}"),
                             subtitle:
@@ -96,20 +102,22 @@ class _HomeScreenIosState extends State<HomeScreenIos> {
                               ),
                             ),
                             trailing: CupertinoButton(
-                              padding: EdgeInsets.zero,
                               child: const Icon(CupertinoIcons.phone),
                               onPressed: () {
                                 Uri(
                                   scheme: 'tel',
                                   path: "${watch.allContacts[index].number}",
                                 );
+                                RecentModel model = RecentModel(
+                                  name: watch.allContacts[index].name,
+                                  number: watch.allContacts[index].number,
+                                  email: watch.allContacts[index].email,
+                                  image: watch.allContacts[index].image,
+                                  date: DateTime.now(),
+                                );
+                                read.addRecent(model);
                               },
                             ),
-                            onTap: () {
-                              read.changeIndex(index);
-                              Navigator.pushNamed(context, AppRoutes.details,
-                                  arguments: read.allContacts[index]);
-                            },
                           ),
                         );
                       },

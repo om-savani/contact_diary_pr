@@ -116,44 +116,41 @@ class _HomeScreenState extends State<HomeScreen> {
             : ListView.builder(
                 itemCount: watch.allContacts.length,
                 itemBuilder: (context, index) {
-                  return Visibility(
-                    visible: read.allContacts[index].isHidden == false,
-                    child: ListTile(
-                      onLongPress: () {
-                        read.removeContact(index);
-                      },
-                      onTap: () {
-                        read.changeIndex(index);
-                        Navigator.pushNamed(context, AppRoutes.details,
-                            arguments: read.allContacts[index]);
-                      },
-                      leading: CircleAvatar(
-                        foregroundImage: FileImage(
-                            File(watch.allContacts[index].image ?? '')),
-                        child: Center(
-                          child: Text(
-                              " ${watch.allContacts[index].name!.substring(0, 1).toUpperCase()}"),
-                        ),
+                  return ListTile(
+                    onLongPress: () {
+                      read.removeContact(index);
+                    },
+                    onTap: () {
+                      read.changeIndex(index);
+                      Navigator.pushNamed(context, AppRoutes.details,
+                          arguments: read.allContacts[index]);
+                    },
+                    leading: CircleAvatar(
+                      foregroundImage:
+                          FileImage(File(watch.allContacts[index].image ?? '')),
+                      child: Center(
+                        child: Text(
+                            " ${watch.allContacts[index].name!.substring(0, 1).toUpperCase()}"),
                       ),
-                      title: Text("${watch.allContacts[index].name}"),
-                      subtitle: Text("${watch.allContacts[index].number}"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.phone),
-                        onPressed: () {
-                          Uri(
-                            scheme: 'tel',
-                            path: "${watch.allContacts[index].number}",
-                          );
-                          RecentModel model = RecentModel(
-                            name: watch.allContacts[index].name,
-                            number: watch.allContacts[index].number,
-                            email: watch.allContacts[index].email,
-                            image: watch.allContacts[index].image,
-                            date: DateTime.now(),
-                          );
-                          read.addRecent(model);
-                        },
-                      ),
+                    ),
+                    title: Text("${watch.allContacts[index].name}"),
+                    subtitle: Text("${watch.allContacts[index].number}"),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.phone),
+                      onPressed: () {
+                        Uri(
+                          scheme: 'tel',
+                          path: "${watch.allContacts[index].number}",
+                        );
+                        RecentModel model = RecentModel(
+                          name: watch.allContacts[index].name,
+                          number: watch.allContacts[index].number,
+                          email: watch.allContacts[index].email,
+                          image: watch.allContacts[index].image,
+                          date: DateTime.now(),
+                        );
+                        read.addRecent(model);
+                      },
                     ),
                   );
                 },

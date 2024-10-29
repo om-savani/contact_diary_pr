@@ -13,7 +13,7 @@ class HomeProvider extends ChangeNotifier {
   ];
 
   List<RecentModel> recentList = [];
-  bool isAndroid = true;
+  bool isAndroid = false;
   int selectedIndex = 0;
   int screenIndex = 0;
   Brightness brightness = Brightness.light;
