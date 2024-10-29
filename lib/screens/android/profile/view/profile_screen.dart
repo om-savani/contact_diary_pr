@@ -1,21 +1,20 @@
 import 'dart:io';
 
-import 'package:contact_diary_pr/utils/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../utils/models/contact_model.dart';
+import '../../../../utils/provider/home_provider.dart';
 
-class AddContact extends StatefulWidget {
-  const AddContact({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<AddContact> createState() => _AddContactState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _AddContactState extends State<AddContact> {
+class _ProfileScreenState extends State<ProfileScreen> {
   HomeProvider read = HomeProvider();
   HomeProvider watch = HomeProvider();
   int stepIndex = 0;
@@ -33,7 +32,7 @@ class _AddContactState extends State<AddContact> {
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_back_ios)),
-        title: const Text('Add Contact'),
+        title: const Text('Profile'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -145,15 +144,7 @@ class _AddContactState extends State<AddContact> {
                             String name = nameController.text;
                             String number = numberController.text;
                             String email = emailController.text;
-
-                            ContactModels details = ContactModels(
-                              name: name,
-                              number: number,
-                              email: email,
-                              image: path,
-                              isFavourite: false,
-                            );
-                            read.addContact(details);
+                            read.addProfile(name, number, email, path ?? '');
                             Navigator.pop(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

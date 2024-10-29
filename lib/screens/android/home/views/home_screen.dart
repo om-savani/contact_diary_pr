@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:contact_diary_pr/routes/all_routes.dart';
+import 'package:contact_diary_pr/utils/models/contact_model.dart';
 import 'package:contact_diary_pr/utils/my_extantions.dart';
 import 'package:contact_diary_pr/utils/provider/home_provider.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? name, number, email, path;
+  @override
+  void initState() {
+    super.initState();
+    getProfile();
+  }
+
+  Future<void> getProfile() async {
+    name = await watch.getProfileName() as String;
+    number = await watch.getProfileNumber() as String;
+    email = await watch.getProfileEmail() as String;
+    path = await watch.getProfilePath() as String;
+  }
+
   HomeProvider read = HomeProvider();
   HomeProvider watch = HomeProvider();
+
   @override
   Widget build(BuildContext context) {
     read = context.read<HomeProvider>();
     watch = context.watch<HomeProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contact Diary'),
@@ -42,25 +59,50 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.profile);
+                          },
+                          icon: const Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
                     CircleAvatar(
                       radius: 50,
-                      // foregroundImage: FileImage(),
+                      foregroundImage: path != null && path!.isNotEmpty
+                          ? FileImage(File(path!))
+                          : null,
+                      child: path == null || path!.isEmpty
+                          ? const Icon(Icons.person, size: 50)
+                          : null,
                     ),
                     5.h,
-                    Text("Profile Name"),
+                    Text(name ?? "Profile Name"),
                     5.h,
                   ],
                 ),
               ),
+              5.h,
+              const Divider(
+                thickness: 1,
+              ),
               10.h,
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.hidecontact);
-                  },
-                  child: const Text("Hide Contact")),
+              Switch(
+                value: watch.isAndroid,
+                onChanged: (value) {
+                  read.changePlatform();
+                },
+              ),
               10.h,
-              ElevatedButton(
-                  onPressed: () {}, child: const Text("Profile Setting")),
+              Switch(
+                value: watch.isDark,
+                onChanged: (value) {
+                  read.changeBrightness(value);
+                },
+              ),
             ],
           ),
         ),
@@ -97,7 +139,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitle: Text("${watch.allContacts[index].number}"),
                       trailing: IconButton(
                         icon: const Icon(Icons.phone),
-                        onPressed: () {},
+                        onPressed: () {
+                          Uri(
+                            scheme: 'tel',
+                            path: "${watch.allContacts[index].number}",
+                          );
+                          RecentModel model = RecentModel(
+                            name: watch.allContacts[index].name,
+                            number: watch.allContacts[index].number,
+                            email: watch.allContacts[index].email,
+                            image: watch.allContacts[index].image,
+                            date: DateTime.now(),
+                          );
+                          read.addRecent(model);
+                        },
                       ),
                     ),
                   );
@@ -107,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 /*
 * => homescreen
 * => detailscreen

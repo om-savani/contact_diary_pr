@@ -8,6 +8,18 @@ class ContactModels {
     this.email,
     this.image,
     this.isFavourite,
-    this.isHidden,
+  });
+}
+
+class RecentModel {
+  String? name, number, email, image;
+  DateTime? date;
+
+  RecentModel({
+    this.name,
+    this.number,
+    this.email,
+    this.image,
+    this.date,
   });
 }

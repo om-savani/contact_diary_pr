@@ -1,5 +1,7 @@
+import 'package:contact_diary_pr/routes/all_ios_routes.dart';
 import 'package:contact_diary_pr/routes/all_routes.dart';
 import 'package:contact_diary_pr/utils/provider/home_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +20,20 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: HomeProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        routes: AppRoutes.allRoutes,
+      child: Consumer<HomeProvider>(
+        builder: (BuildContext context, value, Widget? child) {
+          return value.isAndroid
+              ? MaterialApp(
+                  theme: ThemeData(brightness: value.brightness),
+                  debugShowCheckedModeBanner: false,
+                  routes: AppRoutes.allRoutes,
+                )
+              : CupertinoApp(
+                  debugShowCheckedModeBanner: false,
+                  routes: IosRoutes.allRoutes,
+                  theme: CupertinoThemeData(brightness: value.brightness),
+                );
+        },
       ),
     );
   }

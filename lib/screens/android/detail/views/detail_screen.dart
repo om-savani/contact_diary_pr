@@ -46,10 +46,10 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
           IconButton(
             onPressed: () {
-              read.hideContact();
+              read.favouriteContact();
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.lock),
+            icon: const Icon(Icons.star_border),
           ),
         ],
       ),
@@ -138,7 +138,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 number: numberController.text,
                 email: emailController.text,
                 image: model.image,
-                isHidden: model.isHidden,
+                isFavourite: model.isFavourite,
               );
               context.read<HomeProvider>().updateContact(cmodel);
               Navigator.pop(context);
