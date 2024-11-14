@@ -34,3 +34,10 @@ url_launcher: For phone call integration
 <img src="https://github.com/user-attachments/assets/fa0d304b-a61f-4e1a-b29a-d0b90aa8a522" width="250" height="450" alt="Add Contact">
 <img src="https://github.com/user-attachments/assets/a0abe30b-68e4-4356-92a3-e06e356b2d6d" width="250" height="450" alt="Contact List with Actions">
 
+## output
+
+
+https://github.com/user-attachments/assets/6d261e1c-2f55-42ee-a9ba-ae19539df1ae
+
+
+
