@@ -120,23 +120,29 @@ class _DetailScreenIosState extends State<DetailScreenIos> {
         content: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CupertinoTextField(
-              controller: nameController,
-              placeholder: "Name",
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            CupertinoListTile(
+              title: const Text("Name"),
+              subtitle: CupertinoTextField(
+                controller: nameController,
+                placeholder: "Name",
+              ),
             ),
             5.h,
-            CupertinoTextField(
-              controller: emailController,
-              placeholder: "Email",
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            CupertinoListTile(
+              title: const Text("Email"),
+              subtitle: CupertinoTextField(
+                controller: emailController,
+                placeholder: "Email",
+              ),
             ),
             5.h,
-            CupertinoTextField(
-              controller: numberController,
-              placeholder: "Number",
-              keyboardType: TextInputType.number,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            CupertinoListTile(
+              title: const Text("Number"),
+              subtitle: CupertinoTextField(
+                controller: numberController,
+                placeholder: "Number",
+                keyboardType: TextInputType.number,
+              ),
             ),
           ],
         ),

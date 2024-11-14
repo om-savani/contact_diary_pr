@@ -6,6 +6,7 @@ import 'package:contact_diary_pr/utils/my_extantions.dart';
 import 'package:contact_diary_pr/utils/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -137,11 +138,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     subtitle: Text("${watch.allContacts[index].number}"),
                     trailing: IconButton(
                       icon: const Icon(Icons.phone),
-                      onPressed: () {
-                        Uri(
+                      onPressed: () async {
+                        final Uri uri = Uri(
                           scheme: 'tel',
                           path: "${watch.allContacts[index].number}",
                         );
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri);
+                        } else {
+                          // You could show an error message here if the call cannot be made
+                          print("Could not launch $uri");
+                        }
                         RecentModel model = RecentModel(
                           name: watch.allContacts[index].name,
                           number: watch.allContacts[index].number,
