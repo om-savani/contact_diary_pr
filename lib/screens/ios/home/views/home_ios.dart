@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:contact_diary_pr/routes/all_ios_routes.dart';
-import 'package:contact_diary_pr/routes/all_routes.dart';
 import 'package:contact_diary_pr/utils/my_extantions.dart';
 import 'package:contact_diary_pr/utils/provider/home_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +19,19 @@ class HomeScreenIos extends StatefulWidget {
 class _HomeScreenIosState extends State<HomeScreenIos> {
   HomeProvider read = HomeProvider();
   HomeProvider watch = HomeProvider();
+  String? name, number, email, path;
+  @override
+  void initState() {
+    super.initState();
+    getProfile();
+  }
+
+  Future<void> getProfile() async {
+    name = await watch.getProfileName() as String;
+    number = await watch.getProfileNumber() as String;
+    email = await watch.getProfileEmail() as String;
+    path = await watch.getProfilePath() as String;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +44,6 @@ class _HomeScreenIosState extends State<HomeScreenIos> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CupertinoSwitch(
-              value: watch.isDark,
-              onChanged: (value) {
-                read.changeBrightness(value);
-              },
-            ),
             CupertinoButton(
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.add),
@@ -55,8 +61,105 @@ class _HomeScreenIosState extends State<HomeScreenIos> {
                     title: const Text('Options'),
                     actions: [
                       CupertinoActionSheetAction(
-                        onPressed: () {},
+                        onPressed: () {
+                          showCupertinoDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CupertinoAlertDialog(
+                                  title: const Text("Profile"),
+                                  content: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 50,
+                                        foregroundImage:
+                                            path != null && path!.isNotEmpty
+                                                ? FileImage(File(path!))
+                                                : null,
+                                        child: path == null || path!.isEmpty
+                                            ? const Icon(Icons.person, size: 50)
+                                            : null,
+                                      ),
+                                      5.h,
+                                      Text("Name: ${name ?? "Not Found"}"),
+                                      5.h,
+                                      Text("Number: ${number ?? "Not Found"}"),
+                                      5.h,
+                                      Text("Email: ${email ?? "Not Found"}"),
+                                    ],
+                                  ),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: const Text("Close"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    CupertinoDialogAction(
+                                      child: const Text("Edit"),
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, IosRoutes.profile);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
                         child: const Text("Profile Setting"),
+                      ),
+                      CupertinoActionSheetAction(
+                        onPressed: () {
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CupertinoAlertDialog(
+                                title: const Text("Settings"),
+                                content: Column(
+                                  children: [
+                                    5.h,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text("Dark Mode"),
+                                        CupertinoSwitch(
+                                          value: watch.isDark ?? false,
+                                          onChanged: (value) {
+                                            read.changeBrightness();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    5.h,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text("Theme"),
+                                        CupertinoSwitch(
+                                          value: watch.isAndroid ?? true,
+                                          onChanged: (value) {
+                                            read.changePlatform();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: const Text("Close"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: const Text("Setting"),
                       ),
                     ],
                     cancelButton: CupertinoActionSheetAction(

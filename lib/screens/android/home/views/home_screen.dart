@@ -91,16 +91,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               10.h,
               Switch(
-                value: watch.isAndroid,
+                value: watch.isAndroid ?? true,
                 onChanged: (value) {
                   read.changePlatform();
                 },
               ),
               10.h,
               Switch(
-                value: watch.isDark,
+                value: watch.isDark ?? false,
                 onChanged: (value) {
-                  read.changeBrightness(value);
+                  read.changeBrightness();
                 },
               ),
             ],

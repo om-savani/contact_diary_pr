@@ -1,8 +1,12 @@
 import 'package:contact_diary_pr/utils/models/contact_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeProvider extends ChangeNotifier {
+  HomeProvider() {
+    getTheme();
+  }
   List<ContactModels> allContacts = [
     ContactModels(
       name: 'John Doe',
@@ -13,7 +17,7 @@ class HomeProvider extends ChangeNotifier {
   ];
 
   List<RecentModel> recentList = [];
-  bool isAndroid = false;
+  bool isAndroid = true;
   int selectedIndex = 0;
   int screenIndex = 0;
   Brightness brightness = Brightness.light;
@@ -92,27 +96,24 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changePlatform() {
+  Future<void> getTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isDark = prefs.getBool("isDark") ?? false;
+    isAndroid = prefs.getBool("isAndroid") ?? true;
+    notifyListeners();
+  }
+
+  Future<void> changeBrightness() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isDark = !isDark;
+    prefs.setBool("isDark", isDark);
+    notifyListeners();
+  }
+
+  Future<void> changePlatform() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     isAndroid = !isAndroid;
+    prefs.setBool("isAndroid", isAndroid);
     notifyListeners();
   }
-
-  void changeBrightness(bool value) {
-    isDark = value;
-    brightness = value ? Brightness.dark : Brightness.light;
-    notifyListeners();
-  }
-  // void incrementStepIndex() {
-  //   if (stepIndex < 4) {
-  //     stepIndex++;
-  //   }
-  //   notifyListeners();
-  // }
-
-  // void decrementStepIndex() {
-  //   if (stepIndex > 0) {
-  //     stepIndex--;
-  //   }
-  //   notifyListeners();
-  // }
 }

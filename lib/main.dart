@@ -4,10 +4,11 @@ import 'package:contact_diary_pr/utils/provider/home_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   runApp(
-    const MyApp(),
+    MyApp(),
   );
 }
 
@@ -29,9 +30,9 @@ class MyApp extends StatelessWidget {
                   routes: AppRoutes.allRoutes,
                 )
               : CupertinoApp(
+                  theme: CupertinoThemeData(brightness: value.brightness),
                   debugShowCheckedModeBanner: false,
                   routes: IosRoutes.allRoutes,
-                  theme: CupertinoThemeData(brightness: value.brightness),
                 );
         },
       ),
