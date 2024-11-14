@@ -82,28 +82,37 @@ class _DetailScreenIosState extends State<DetailScreenIos> {
                 ),
               ),
               50.h,
-              CupertinoListTile(
-                leading: const Text(
-                  "Name: ",
-                  // style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                title: Text(model.name!),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Name: ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(model.name!),
+                ],
               ),
               10.h,
-              CupertinoListTile(
-                leading: const Text(
-                  "Email: ",
-                  // style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                title: Text(model.email!),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Email: ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(model.email!),
+                ],
               ),
               10.h,
-              CupertinoListTile(
-                leading: const Text(
-                  "Number: ",
-                  // style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                title: Text(model.number!),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Number: ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(model.number!),
+                ],
               ),
             ],
           ),
@@ -120,13 +129,14 @@ class _DetailScreenIosState extends State<DetailScreenIos> {
         content: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CupertinoListTile(
-              title: const Text("Name"),
-              subtitle: CupertinoTextField(
+            Row(children: [
+              const Text("Name"),
+              10.w,
+              CupertinoTextField(
                 controller: nameController,
                 placeholder: "Name",
               ),
-            ),
+            ]),
             5.h,
             CupertinoListTile(
               title: const Text("Email"),
