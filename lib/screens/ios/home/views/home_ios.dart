@@ -215,7 +215,6 @@ class _HomeScreenIosState extends State<HomeScreenIos> {
                                 if (await canLaunchUrl(uri)) {
                                   await launchUrl(uri);
                                 } else {
-                                  // You could show an error message here if the call cannot be made
                                   print("Could not launch $uri");
                                 }
                                 RecentModel model = RecentModel(
